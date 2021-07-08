@@ -23,7 +23,7 @@ public class PersonService {
                 new Department(2,"ECS")));
         personList = new ArrayList<Person>(Arrays.asList(
 
-                new Person.Builder().setName("leena").setId(55).setDep(1).build(),
+                new Person.Builder().setId(55).setName("leena").setDep(1).build(),
                 new Person.Builder().setId(1182351).setName("yara").setDep(2).build(),
                 new Person.Builder().setId(1172351).setName("raghad").setDep(1).build(),
                 new Person.Builder().setId(1162351).setName("leena").setDep(1).build(),
@@ -43,9 +43,9 @@ public class PersonService {
     }
 
 
-public List<Person> getAll(){
+     public List<Person> getAll(){
         return personList;
-}
+     }
 
     //GET (return Person by Name).
     public List<Person> getName(String personName) {

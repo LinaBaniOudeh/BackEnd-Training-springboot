@@ -3,11 +3,18 @@ package com.example.demo.api;
 import com.example.demo.model.Person;
 import com.example.demo.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.lang.NonNull;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
+@Validated
 public class PersonController {
     @Autowired
     PersonService service;
@@ -27,9 +34,10 @@ public class PersonController {
 
 
     //GET (return Person by name).
-    @RequestMapping(method = RequestMethod.GET, value = "/persons/search")
-    public List<Person> searchPersonName(@RequestParam("name") String name) {
-         return service.getName(name);
+    @GetMapping (value = "/persons/search")
+    public List<Person> searchPersonName(@RequestParam("name") @NotEmpty String name) {
+
+        return service.getName(name);
     }
     //GET (return Person by name).
     @RequestMapping(method = RequestMethod.GET, value = "/departments/{id}/persons")
@@ -39,8 +47,8 @@ public class PersonController {
     }
 
     //POST (add new Person).
-    @RequestMapping(method = RequestMethod.POST, value = "/persons")
-    public boolean addPerson(@RequestBody Person person) {
+    @PostMapping( value = "/persons",consumes = {MediaType.ALL_VALUE})
+    public boolean addPerson(@RequestBody @Valid Person person) {
         return service.addToList(person);
 
     }
