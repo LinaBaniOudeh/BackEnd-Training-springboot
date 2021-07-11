@@ -32,27 +32,28 @@ public class PersonService {
     }
 
     //TODO: what is the Optional
+
     //GET (return Person by Id).
     public Person getById(int personId) {
         return personList.stream().filter(p -> p.getId() == personId).findFirst().get();
     }
-
     //GET (return Person by DepId).
+
     public List<Person> getByDepId(int depId) {
         return personList.stream().filter(p -> p.getDep() == depId).collect(Collectors.toList());
     }
-
 
      public List<Person> getAll(){
         return personList;
      }
 
     //GET (return Person by Name).
+
     public List<Person> getName(String personName) {
         return personList.stream().filter(p -> p.getName().contains(personName)).collect(Collectors.toList());
     }
-
     //POST (add new Person).
+
     public boolean addToList(Person person) {
         return personList.add(person);
     }
@@ -68,6 +69,7 @@ public class PersonService {
 //                return true;
 //            }
 //        }
+
 //        return false;
 //
 //    }

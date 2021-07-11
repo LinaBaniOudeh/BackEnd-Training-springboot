@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 
 public class Person {
@@ -13,6 +14,7 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @NotEmpty(message = "must fill name field")
+    @Size(min =3,max = 15,message = "name must be at least 3 character and not exceed 15")
     private  String name;
     private int dep;
 

@@ -5,6 +5,8 @@ import com.example.demo.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.lang.NonNull;
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,8 +50,13 @@ public class PersonController {
 
     //POST (add new Person).
     @PostMapping( value = "/persons",consumes = {MediaType.ALL_VALUE})
-    public boolean addPerson(@RequestBody @Valid Person person) {
-        return service.addToList(person);
+    public String addPerson(@RequestBody @Valid Person person, Errors error, Model model) {
+        if(error.hasErrors()){
+          model.addAttribute("Title","add Person");
+          return "Unvalid Argument";
+        }
+        service.addToList(person);
+        return "redirect" ;
 
     }
     //DELETE (delete person).
