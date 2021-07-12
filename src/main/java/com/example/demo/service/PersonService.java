@@ -2,6 +2,12 @@ package com.example.demo.service;
 
 import com.example.demo.model.Department;
 import com.example.demo.model.Person;
+import com.example.demo.repository.PersonRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -28,11 +34,45 @@ public class PersonService {
                 new Person.Builder().setId(1172351).setName("raghad").setDep(1).build(),
                 new Person.Builder().setId(1162351).setName("leena").setDep(1).build(),
                 new Person.Builder().setId(1152351).setName("beeeeep").setDep(2).build(),
-                new Person.Builder().setId(1132351).setName("shaima'a").setDep(1).build()));
+                new Person.Builder().setId(1132351).setName("shaima'a").setDep(1).build(),
+                new Person.Builder().setId(1122351).setName("noor").setDep(2).build(),
+                new Person.Builder().setId(1112351).setName("wafa'a").setDep(2).build()));
     }
+
+
+//    @Autowired
+//    PersonRepository repository;
+//
+//    public List<Person> getAllPersons(Integer pageNo, Integer pageSize, String sortBy)
+//    {
+//        Pageable paging = (Pageable) PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+//
+//        Page<Person> pagedResult = repository.findAll((org.springframework.data.domain.Pageable) paging);
+//
+//        if(pagedResult.hasContent()) {
+//            return pagedResult.getContent();
+//        } else {
+//            return new ArrayList<Person>();
+//        }
+//    }
 
     //TODO: what is the Optional
 
+    @Autowired
+    PersonRepository repository;
+
+    public List<Person> getAllEmployees(Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<Person> pagedResult = repository.findAll(paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<Person>();
+        }
+    }
     //GET (return Person by Id).
     public Person getById(int personId) {
         return personList.stream().filter(p -> p.getId() == personId).findFirst().get();

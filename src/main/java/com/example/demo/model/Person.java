@@ -2,17 +2,19 @@ package com.example.demo.model;
 
 import com.sun.istack.internal.NotNull;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-
+@Entity
+@Table(name = "persons")
 public class Person {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="person_id")
     private int id;
+    @Column(nullable = false,unique = true)
+
     @NotEmpty(message = "must fill name field")
     @Size(min =3,max = 15,message = "name must be at least 3 character and not exceed 15")
     private  String name;
@@ -22,6 +24,10 @@ public class Person {
         this.id = id;
         this.name = name;
         this.dep = dep;
+    }
+
+    public Person() {
+       super();
     }
 
     public void setId(int id) {

@@ -1,0 +1,10 @@
+server:
+  port: 8081
+
+app:
+  name: don't have a name yet.
+  owner: This Application is Owned by Eng.Leena Bny Odeh :)
+
+spring:
+  profiles:
+    active: test

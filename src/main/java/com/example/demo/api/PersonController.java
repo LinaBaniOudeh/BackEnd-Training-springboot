@@ -1,25 +1,59 @@
 package com.example.demo.api;
-
 import com.example.demo.model.Person;
+import com.example.demo.repository.PersonRepository;
 import com.example.demo.service.PersonService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.lang.NonNull;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import java.util.Optional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.List;
+
 
 @RestController
 @Validated
+@RequiredArgsConstructor
 public class PersonController {
     @Autowired
     PersonService service;
+   // @Autowired
+    //PersonRepository repository;
+
+    @Value("${app.owner}")
+    private  String appOwner;
+
+    @GetMapping(value = "/owner")
+    public String getAppOwner() {
+        return appOwner ;
+    }
+
+    @GetMapping(value = "/persons/pagination")
+    public ResponseEntity<List<Person>> getAllEmployees(
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy)
+    {
+        List<Person> list = service.getAllEmployees(pageNo, pageSize, sortBy);
+
+        return new ResponseEntity<List<Person>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+
+
 
 
     //GET (return Person List).
@@ -71,5 +105,16 @@ public class PersonController {
     public boolean updatePerson(@RequestBody Person person, @PathVariable int id) {
         // update with username in the UserService arrayList
         return service.UpdatePersonList(person, id);
+    }
+
+
+    private Sort.Direction getSortDirection(String direction) {
+        if (direction.equals("asc")) {
+            return Sort.Direction.ASC;
+        } else if (direction.equals("desc")) {
+            return Sort.Direction.DESC;
+        }
+
+        return Sort.Direction.ASC;
     }
 }

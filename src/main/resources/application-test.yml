@@ -1,0 +1,7 @@
+server:
+  port: 8080
+
+app:
+  name: don't have a name yet.
+  owner: Application is Owned by Eng.Leena Bny Odeh :) :)
+

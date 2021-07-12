@@ -25,3 +25,4 @@ public class Department {
         Depname = depname;
     }
 }
+
